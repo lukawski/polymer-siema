@@ -8,6 +8,7 @@
 
     <script src="../../webcomponentsjs/webcomponents-loader.js"></script>
 
+    <link rel="import" href="../../polymer/lib/elements/dom-bind.html">
     <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
     <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
     <link rel="import" href="../polymer-siema.html">
@@ -21,11 +22,21 @@
     <div class="vertical-section-container centered">
       <h3>Basic polymer-siema demo</h3>
       <demo-snippet>
-        <template>
-          <polymer-siema
-            entries='[{"src":"https://images.unsplash.com/photo-1519817006514-8b677cd06028?ixlib=rb-0.3.5&s=b65f2eddc7111ef9cb79ce323278a31f&auto=format&fit=crop&w=1350&q=80"},{"src":"https://images.unsplash.com/photo-1515071412666-49f74959e55c?ixlib=rb-0.3.5&s=43c086540603ccde3523c739d23b27cf&auto=format&fit=crop&w=1350&q=80"}]'
-          ></polymer-siema>
-        </template>
+        <dom-bind id="polymerSiema">
+          <template>
+            <polymer-siema
+              entries="[[entries]]"
+            ></polymer-siema>
+
+            <script>
+              const element = document.getElementById('polymerSiema');
+              element.entries = [
+                {"src":"https://images.unsplash.com/photo-1519817006514-8b677cd06028?ixlib=rb-0.3.5&s=b65f2eddc7111ef9cb79ce323278a31f&auto=format&fit=crop&w=1350&q=80"},
+                {"src":"https://images.unsplash.com/photo-1515071412666-49f74959e55c?ixlib=rb-0.3.5&s=43c086540603ccde3523c739d23b27cf&auto=format&fit=crop&w=1350&q=80"}
+              ];
+            </script>
+          </template>
+        </dom-bind>
       </demo-snippet>
     </div>
   </body>
