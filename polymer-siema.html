@@ -1,0 +1,71 @@
+<link rel="import" href="../polymer/polymer-element.html">
+<script src="../siema/dist/siema.min.js"></script>
+
+<script>
+  /**
+    * `polymer-siema`
+    * Polymer wrapper for Siema carousel
+    *
+    * @customElement
+    * @polymer
+    * @demo demo/index.html
+    */
+  class PolymerSiema extends Polymer.Element {
+    static get is() { return 'polymer-siema'; }
+
+    static get properties() {
+      return {
+        entries: {
+          type: Array,
+          value: () => [],
+        },
+
+
+
+        _siemaInstance: {
+          type: Object,
+        }
+      };
+    }
+
+    static get template() {
+      return Polymer.html`
+        <style>
+          :host {
+            display: block;
+          }
+
+          :host img {
+            max-width: 100%;
+          }
+        </style>
+
+        <div id="siema"></div>
+      `
+    }
+
+    ready() {
+      super.ready();
+      const carouselElements = this._createCarosuelElements(this.entries);
+      this.$.siema.appendChild(carouselElements);
+
+      this._siemaInstance = new Siema({
+        selector: this.$.siema
+      });
+    }
+
+    _createCarosuelElements(entries) {
+      const fragment = document.createDocumentFragment();
+
+      for (const entry of entries) {
+        const element = document.createElement('img');
+        element.src = entry.src;
+        fragment.appendChild(element);
+      }
+
+      return fragment;
+    }
+  }
+
+  window.customElements.define(PolymerSiema.is, PolymerSiema);
+</script>
