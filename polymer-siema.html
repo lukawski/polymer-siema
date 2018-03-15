@@ -20,11 +20,68 @@
           value: () => [],
         },
 
+        duration: {
+          type: Number,
+          value: 200,
+        },
 
+        easing: {
+          type: String,
+          value: 'ease-out',
+        },
+
+        perPage: {
+          type: Number,
+          value: 1,
+        },
+
+        startIndex: {
+          type: Number,
+          value: 0,
+        },
+
+        draggable: {
+          type: Boolean,
+          value: true,
+        },
+
+        multipleDrag: {
+          type: Boolean,
+          value: true,
+        },
+
+        threshold: {
+          type: Number,
+          value: 20,
+        },
+
+        loop: {
+          type: Boolean,
+          value: false,
+        },
+
+        rtl: {
+          type: Boolean,
+          value: false,
+        },
+
+        autoplay: {
+          type: Boolean,
+          value: false,
+        },
+
+        autplayTiming: {
+          type: Number,
+          value: 3000,
+        },
 
         _siemaInstance: {
           type: Object,
-        }
+        },
+
+        _autoplayInterval: {
+          type: Number,
+        },
       };
     }
 
@@ -46,15 +103,34 @@
 
     ready() {
       super.ready();
-      const carouselElements = this._createCarosuelElements(this.entries);
+      const carouselElements = this._createCarouselElements(this.entries);
       this.$.siema.appendChild(carouselElements);
 
       this._siemaInstance = new Siema({
-        selector: this.$.siema
+        selector: this.$.siema,
+        duration: 200,
+        easing: this.easing,
+        perPage: this.perPage,
+        startIndex: this.startIndex,
+        draggable: this.draggable,
+        multipleDrag: this.multipleDrag,
+        threshold: this.threshold,
+        loop: this.loop,
+        rtl: this.rtl,
+        onInit: this._onSiemaInit.bind(this),
+        onChange: this._onSiemaChange.bind(this),
       });
     }
 
-    _createCarosuelElements(entries) {
+    next(slidesCount = 1) {
+      this._siemaInstance.next(slidesCount);
+    }
+
+    prev(slidesCount = 1) {
+      this._siemaInstance.prev();
+    }
+
+    _createCarouselElements(entries) {
       const fragment = document.createDocumentFragment();
 
       for (const entry of entries) {
@@ -64,6 +140,16 @@
       }
 
       return fragment;
+    }
+
+    _onSiemaInit() {
+      console.log('init')
+      this.dispatchEvent(new CustomEvent('init'));
+    }
+
+    _onSiemaChange() {
+      console.log('change')
+      this.dispatchEvent(new CustomEvent('change'));
     }
   }
 
